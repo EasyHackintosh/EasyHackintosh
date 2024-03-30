@@ -43,9 +43,9 @@ if %m% equ 4 goto end
 set page=Download Recovery Image
 cls
 echo.
-echo [90m----------------------------------------------[0m
+echo [90m-----------------------------------------------[0m
 echo [34;1mEasyHackintosh[0m [97mv%ver%[0m [90m/[0m %page%
-echo [90m----------------------------------------------[0m
+echo [90m-----------------------------------------------[0m
 echo.
 echo [90m1 -[0m Ventura
 echo [90m2 -[0m Monterey
@@ -75,9 +75,9 @@ if "%v%"=="13" (
 :dl__start
 cls
 echo.
-echo [90m----------------------------------------------[0m
+echo [90m-----------------------------------------------[0m
 echo [34;1mEasyHackintosh[0m [97mv%ver%[0m [90m/[0m %page%
-echo [90m----------------------------------------------[0m
+echo [90m-----------------------------------------------[0m
 echo.
 if not "%is_py%"=="true" (
     echo [31mPython must be installed to proceed.[0m
@@ -86,6 +86,7 @@ if not "%is_py%"=="true" (
 )
 if not exist "temp" (
     mkdir temp
+    attrib +h "temp"
 )
 echo Downloading [32;1mOpenCore[0m...
 curl -# -L -o "%tmp%\OpenCore.zip" -g --create-dirs --progress-bar "https://github.com/acidanthera/OpenCorePkg/releases/download/0.9.9/OpenCore-0.9.9-RELEASE.zip"
@@ -104,9 +105,9 @@ rd /s /q "%tmp%\EFI" >nul
 :dl__mr
 cls
 echo.
-echo [90m----------------------------------------------[0m
+echo [90m-----------------------------------------------[0m
 echo [34;1mEasyHackintosh[0m [97mv%ver%[0m [90m/[0m %page%
-echo [90m----------------------------------------------[0m
+echo [90m-----------------------------------------------[0m
 echo.
 cd %tmp%\macrecovery
 if not "%is_py%"=="true" (
@@ -168,7 +169,7 @@ if not %error_level% equ 0 (
     rd /s /q "%tmp%\macrecovery" >nul
     goto main
 )
-copy "%tmp%\macrecovery\com.apple.recovery.boot\*" "%img%\" /y >nul
+move "%tmp%\macrecovery\com.apple.recovery.boot\*" "%img%\" >nul
 echo Cleaning up...
 rd /s /q "%tmp%\macrecovery" >nul
 goto main
