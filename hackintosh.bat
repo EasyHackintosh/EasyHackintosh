@@ -183,7 +183,34 @@ echo [90m-------------------------------------[0m
 echo [34;1mEasyHackintosh[0m [97mv%ver%[0m [90m/[0m %page%
 echo [90m-------------------------------------[0m
 echo.
-pause >nul
+set imgsc=0
+for /f %%i in ('dir /b "images\" ^| find /c /v ""') do set "imgsc=%%i"
+if %imgsc% lss 2 (
+    echo [31mPlease download a recovery image before using this tool.[0m
+    pause >nul
+    goto main
+)
+set /a index=0
+set "choices="
+for /f "skip=1 delims=" %%a in ('wmic logicaldisk where "drivetype=2" get deviceid^,volumename ^| findstr /r /v "^$"') do (
+    set /a index+=1
+    for /f "tokens=1,2" %%b in ("%%a") do (
+        set "usb[!index!]=%%c (%%b)"
+    )
+    set "choices=!choices!!index!"
+)
+for /l %%i in (1,1,%index%) do (
+    echo [90m%%i -[0m !usb[%%i]!
+)
+echo.
+echo [90mQ -[0m Back
+echo.
+choice /c:%choices%q >nul
+set u=%errorlevel%
+set /a back_index=index+1
+if %u% equ %back_index% (
+    goto main
+)
 :end
 if exist "temp" (
     rd /s /q "temp" >nul
