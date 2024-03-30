@@ -166,7 +166,6 @@ if not %error_level% equ 0 (
     echo [31mImage download failed.[0m
     echo Cleaning up...
     rd /s /q "%tmp%\macrecovery" >nul
-    pause >nul
     goto main
 )
 copy "%tmp%\macrecovery\com.apple.recovery.boot\*" "%img%\" /y >nul
