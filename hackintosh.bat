@@ -1,6 +1,11 @@
 @echo off
 setlocal enabledelayedexpansion
 set ver=1.0.0
+set tmp="temp"
+set img="images"
+if not exist "images" (
+    mkdir images
+)
 for /f "tokens=4 delims= " %%i in ('ver') do set "winv=%%i"
 for /f "tokens=1,2 delims=." %%a in ("%winv%") do (
     set "winvm=%%a"
@@ -82,7 +87,6 @@ if not "%is_py%"=="true" (
 if not exist "temp" (
     mkdir temp
 )
-set tmp="temp"
 echo Downloading [32;1mOpenCore[0m...
 curl -# -L -o "%tmp%\OpenCore.zip" -g --create-dirs --progress-bar "https://github.com/acidanthera/OpenCorePkg/releases/download/0.9.9/OpenCore-0.9.9-RELEASE.zip"
 echo Extracting archive...
@@ -96,4 +100,78 @@ if not exist "%tmp%/macrecovery" (
 copy "%tmp%\EFI\Utilities\macrecovery\*" "%tmp%\macrecovery\" /y >nul
 echo Cleaning up...
 del "%tmp%\OpenCore.zip" >nul
+rd /s /q "%tmp%\EFI" >nul
+:dl__mr
+cls
+echo.
+echo [90m----------------------------------------------[0m
+echo [34;1mEasyHackintosh[0m [97mv%ver%[0m [90m/[0m %page%
+echo [90m----------------------------------------------[0m
+echo.
+cd %tmp\macrecovery
+if not "%is_py%"=="true" (
+    echo [31mPython must be installed to proceed.[0m
+    pause >nul
+    goto main
+)
+if "%v%"=="1" (
+    python macrecovery.py -b Mac-B4831CEBD52A0C4C -m 00000000000000000 download
+    set error_level=%errorlevel%
+)
+if "%v%"=="2" (
+    python macrecovery.py -b Mac-E43C1C25D4880AD6 -m 00000000000000000 download
+    set error_level=%errorlevel%
+)
+if "%v%"=="3" (
+    python macrecovery.py -b Mac-2BD1B31983FE1663 -m 00000000000000000 download
+    set error_level=%errorlevel%
+)
+if "%v%"=="4" (
+    python macrecovery.py -b Mac-00BE6ED71E35EB86 -m 00000000000000000 download
+    set error_level=%errorlevel%
+)
+if "%v%"=="5" (
+    python macrecovery.py -b Mac-7BA5B2DFE22DDD8C -m 00000000000KXPG00 download
+    set error_level=%errorlevel%
+)
+if "%v%"=="6" (
+    python macrecovery.py -b Mac-BE088AF8C5EB4FA2 -m 00000000000J80300 download
+    set error_level=%errorlevel%
+)
+if "%v%"=="7" (
+    python macrecovery.py -b Mac-77F17D7DA9285301 -m 00000000000J0DX00 download
+    set error_level=%errorlevel%
+)
+if "%v%"=="8" (
+    python macrecovery.py -b Mac-FFE5EF870D7BA81A -m 00000000000GQRX00 download
+    set error_level=%errorlevel%
+)
+if "%v%"=="9" (
+    python macrecovery.py -b Mac-E43C1C25D4880AD6 -m 00000000000GDVW00 download
+    set error_level=%errorlevel%
+)
+if "%v%"=="10" (
+    python macrecovery.py -b Mac-F60DEB81FF30ACF6 -m 00000000000FNN100 download
+    set error_level=%errorlevel%
+)
+if "%v%"=="11" (
+    python macrecovery.py -b Mac-7DF2A3B5E5D671ED -m 00000000000F65100 download
+    set error_level=%errorlevel%
+)
+if "%v%"=="12" (
+    python macrecovery.py -b Mac-C3EC7CD22292981F -m 00000000000F0HM00 download
+    set error_level=%errorlevel%
+)
+if not %error_level% equ 0 (
+    echo [31mImage download failed.[0m
+    echo Cleaning up...
+    rd /s /q "%tmp%\macrecovery" >nul
+    pause >nul
+    goto main
+)
+copy "%tmp%\macrecovery\com.apple.recovery.boot\*" "%img%\" /y >nul
+echo Cleaning up...
+rd /s /q "%tmp%\macrecovery" >nul
+goto main
 :end
+rd /s /q "%tmp%" >nul
