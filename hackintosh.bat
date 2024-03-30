@@ -108,7 +108,7 @@ echo [90m----------------------------------------------[0m
 echo [34;1mEasyHackintosh[0m [97mv%ver%[0m [90m/[0m %page%
 echo [90m----------------------------------------------[0m
 echo.
-cd %tmp\macrecovery
+cd %tmp%\macrecovery
 if not "%is_py%"=="true" (
     echo [31mPython must be installed to proceed.[0m
     pause >nul
