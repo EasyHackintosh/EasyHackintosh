@@ -28,12 +28,12 @@ echo [34;1mEasyHackintosh[0m [97mv%ver%[0m
 echo [90m----------------------[0m
 echo.   
 echo [90mD -[0m Download Recovery Image
-echo [90mC -[0m Create Installer USB
+echo [90mE -[0m EFI Creation (USB)
 echo [90mO -[0m Configure OpenCore
 echo.
 echo [90mQ -[0m Quit
 echo.
-choice /c:dcoq >nul
+choice /c:deoq >nul
 set m=%errorlevel%
 if %m% equ 1 goto dl
 if %m% equ 2 goto efi
@@ -43,9 +43,9 @@ if %m% equ 4 goto end
 set page=Download Recovery Image
 cls
 echo.
-echo [90m-----------------------------------------------[0m
+echo [90m------------------------------------------------[0m
 echo [34;1mEasyHackintosh[0m [97mv%ver%[0m [90m/[0m %page%
-echo [90m-----------------------------------------------[0m
+echo [90m------------------------------------------------[0m
 echo.
 echo [90m1 -[0m Ventura
 echo [90m2 -[0m Monterey
@@ -75,9 +75,9 @@ if "%v%"=="13" (
 :dl__start
 cls
 echo.
-echo [90m-----------------------------------------------[0m
+echo [90m------------------------------------------------[0m
 echo [34;1mEasyHackintosh[0m [97mv%ver%[0m [90m/[0m %page%
-echo [90m-----------------------------------------------[0m
+echo [90m------------------------------------------------[0m
 echo.
 if not "%is_py%"=="true" (
     echo [31mPython must be installed to proceed.[0m
@@ -105,9 +105,9 @@ rd /s /q "%tmp%\EFI" >nul
 :dl__mr
 cls
 echo.
-echo [90m-----------------------------------------------[0m
+echo [90m------------------------------------------------[0m
 echo [34;1mEasyHackintosh[0m [97mv%ver%[0m [90m/[0m %page%
-echo [90m-----------------------------------------------[0m
+echo [90m------------------------------------------------[0m
 echo.
 cd %tmp%\macrecovery
 if not "%is_py%"=="true" (
@@ -175,5 +175,16 @@ move "temp\macrecovery\com.apple.recovery.boot\*" "images\" >nul
 echo Cleaning up...
 rd /s /q "%tmp%\macrecovery" >nul
 goto main
+:efi
+set page=EFI Creation
+cls
+echo.
+echo [90m-------------------------------------[0m
+echo [34;1mEasyHackintosh[0m [97mv%ver%[0m [90m/[0m %page%
+echo [90m-------------------------------------[0m
+echo.
+pause >nul
 :end
-rd /s /q "%tmp%" >nul
+if exist "temp" (
+    rd /s /q "temp" >nul
+)
