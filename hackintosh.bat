@@ -170,7 +170,8 @@ REM Skip validation (for now)
 ::    rd /s /q "%tmp%\macrecovery" >nul
 ::    goto main
 ::)
-move "%tmp%\macrecovery\com.apple.recovery.boot\*" "%img%\" >nul
+REM Hard-coded paths to make sure the images are moved
+move "temp\macrecovery\com.apple.recovery.boot\*" "images\" >nul
 echo Cleaning up...
 rd /s /q "%tmp%\macrecovery" >nul
 goto main
