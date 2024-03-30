@@ -163,12 +163,13 @@ if "%v%"=="12" (
     python macrecovery.py -b Mac-C3EC7CD22292981F -m 00000000000F0HM00 download
     set error_level=%errorlevel%
 )
-if not %error_level% equ 0 (
-    echo [31mImage download failed.[0m
-    echo Cleaning up...
-    rd /s /q "%tmp%\macrecovery" >nul
-    goto main
-)
+REM Skip validation (for now)
+:: if not %error_level% equ 0 (
+::    echo [31mImage download failed.[0m
+::    echo Cleaning up...
+::    rd /s /q "%tmp%\macrecovery" >nul
+::    goto main
+::)
 move "%tmp%\macrecovery\com.apple.recovery.boot\*" "%img%\" >nul
 echo Cleaning up...
 rd /s /q "%tmp%\macrecovery" >nul
