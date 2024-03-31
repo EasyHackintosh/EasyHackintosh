@@ -1,5 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
+title EasyHackintosh v%ver%
+if not "%1"=="am_admin" (powershell start -verb runas '%0' am_admin & exit /b)
 set ver=1.0.0
 set tmp="temp"
 set img="images"
@@ -26,19 +28,21 @@ echo.
 echo [90m----------------------[0m
 echo [34;1mEasyHackintosh[0m [97mv%ver%[0m
 echo [90m----------------------[0m
-echo.   
+echo.
+echo [90mU - Unattended Mode[0m
 echo [90mD -[0m Download Recovery Image
-echo [90mE -[0m EFI Creation (USB)
+echo [90mE -[0m EFI Creation
 echo [90mO -[0m Configure OpenCore
 echo.
 echo [90mQ -[0m Quit
 echo.
-choice /c:deoq >nul
+choice /c:udeoq >nul
 set m=%errorlevel%
-if %m% equ 1 goto dl
-if %m% equ 2 goto efi
-if %m% equ 3 goto config
-if %m% equ 4 goto end
+if %m% equ 1 goto main
+if %m% equ 2 goto dl
+if %m% equ 3 goto efi
+if %m% equ 4 goto config
+if %m% equ 5 goto end
 :dl
 set page=Download Recovery Image
 cls
