@@ -1,10 +1,9 @@
 @echo off
 setlocal enabledelayedexpansion
-title EasyHackintosh v%ver%
-if not "%1"=="am_admin" (powershell start -verb runas '%0' am_admin & exit /b)
 set ver=1.0.0
 set tmp="temp"
 set img="images"
+title EasyHackintosh v%ver%
 if not exist "images" (
     mkdir images
 )
@@ -215,6 +214,27 @@ set /a back_index=index+1
 if %u% equ %back_index% (
     goto main
 )
+choice /c:yn /n /m "Selected drive will be erased. Continue? (Y/N) "
+set d=%errorlevel%
+if not "%d%"=="1" (
+    goto main
+)
+cls
+echo.
+echo [90m-------------------------------------[0m
+echo [34;1mEasyHackintosh[0m [97mv%ver%[0m [90m/[0m %page%
+echo [90m-------------------------------------[0m
+echo.
+echo Erasing...
+:: (
+:: echo select disk %u%
+:: echo clean
+:: echo create partition primary
+:: echo select partition 1
+:: echo format fs=fat32 quick label="EFI"
+:: ) | diskpart
+REM Safety measure
+ping localhost -n 5 >nul
 :end
 if exist "temp" (
     rd /s /q "temp" >nul
